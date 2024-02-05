@@ -1,5 +1,5 @@
-import { createRoot } from "react-dom/client";
-import Pet from "./components/Pet";
+import { createRoot } from 'react-dom/client';
+import Pet from './components/Pet';
 const App = () => {
   return (
     <div>
@@ -10,6 +10,6 @@ const App = () => {
     </div>
   );
 };
-const container = document.getElementById("root");
+const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(<App />);
