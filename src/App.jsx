@@ -1,13 +1,5 @@
-import { createRoot } from "react-dom";
-const Pet = (props) => {
-  return (
-    <div>
-      <h1>{props.name}</h1>
-      <h2>{props.animal}</h2>
-      <h3>{props.breed}</h3>
-    </div>
-  );
-};
+import { createRoot } from "react-dom/client";
+import Pet from "./components/Pet";
 const App = () => {
   return (
     <div>
