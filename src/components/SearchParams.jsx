@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Pet from './Pet';
-const animals = ['bird', 'cat', 'dog', 'rabbit', 'reptiles'];
+const animals = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 const breeds = [];
 const SearchParams = () => {
   const [location, setLocation] = useState('');
