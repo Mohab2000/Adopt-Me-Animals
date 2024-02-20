@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import Pet from './Pet';
+import useBreedList from '../hooks/useBreedList';
 const animals = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
-const breeds = [];
 const SearchParams = () => {
   const [location, setLocation] = useState('');
   const [animal, setAnimal] = useState('');
   const [breed, setBreed] = useState('');
   const [pets, setPets] = useState([]);
+  const breeds = useBreedList(animal);
   useEffect(() => {
     const fetchPets = async () => {
       const res = await fetch(
@@ -37,6 +38,7 @@ const SearchParams = () => {
             value={animal}
             onChange={(e) => {
               setAnimal(e.target.value);
+              setBreed('');
             }}
           >
             {animals.map((animal) => (
