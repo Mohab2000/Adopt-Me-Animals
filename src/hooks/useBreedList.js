@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const localCache = {};
 const useBreedList = (animal) => {
   const [breedList, setBreedList] = useState([]);
+  const fetchBreedList = useCallback(async () => {
+    const res = await fetch(
+      `https://pets-v2.dev-apis.com/breeds?animal=${animal}`,
+    );
+    const json = await res.json();
+    localCache[animal] = json.breeds || [];
+    setBreedList(localCache[animal]);
+  }, [animal]);
+
   useEffect(() => {
-    const fetchBreedList = async () => {
-      const res = await fetch(
-        `https://pets-v2.dev-apis.com/breeds?animal=${animal}`,
-      );
-      const json = await res.json();
-      localCache[animal] = json.breeds || [];
-      setBreedList(localCache[animal]);
-    };
     if (!animal) {
       setBreedList([]);
     } else if (localCache[animal]) {
@@ -19,7 +20,7 @@ const useBreedList = (animal) => {
     } else {
       fetchBreedList();
     }
-  }, [animal]);
+  }, [animal, fetchBreedList]);
   return breedList;
 };
 

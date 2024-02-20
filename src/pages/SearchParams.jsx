@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react';
-import Pet from './Pet';
 import useBreedList from '../hooks/useBreedList';
-const animals = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
+import Results from '../components/Results';
+const animals = ['', 'bird', 'cat', 'dog', 'rabbit', 'reptile'];
 const SearchParams = () => {
   const [location, setLocation] = useState('');
   const [animal, setAnimal] = useState('');
   const [breed, setBreed] = useState('');
   const [pets, setPets] = useState([]);
   const breeds = useBreedList(animal);
+  const fetchPets = async () => {
+    const res = await fetch(
+      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`,
+    );
+    const json = await res.json();
+    setPets(json.pets);
+  };
   useEffect(() => {
-    const fetchPets = async () => {
-      const res = await fetch(
-        `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`,
-      );
-      const json = await res.json();
-      setPets(json.pets);
-    };
     fetchPets();
-  }, [animal, location, breed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="search-params">
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          fetchPets();
+        }}
+      >
         <label htmlFor="location">
           Location
           <input
@@ -65,20 +71,7 @@ const SearchParams = () => {
         </label>
         <button>Submit</button>
       </form>
-      <div className="search">
-        {!pets.length ? (
-          <h1>No Pets Found</h1>
-        ) : (
-          pets.map((pet) => (
-            <Pet
-              key={pet.id}
-              animal={pet.animal}
-              name={pet.name}
-              breed={pet.breed}
-            />
-          ))
-        )}
-      </div>
+      <Results pets={pets} />
     </div>
   );
 };
