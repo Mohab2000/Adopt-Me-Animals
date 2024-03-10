@@ -5,6 +5,7 @@ import Details from './pages/Details';
 import NotFound from './pages/NotFound';
 
 const App = () => {
+  //routes
   return (
     <BrowserRouter>
       <h1>Adopt Me!</h1>
